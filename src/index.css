@@ -1,0 +1,86 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Строгая палитра: плоские поверхности, рамка 1px, один акцент (#22D3EE) */
+:root {
+  --background: 11 15 20; /* #0B0F14 */
+  --foreground: 229 231 235; /* #E5E7EB */
+  --muted-foreground: 148 163 184; /* #94A3B8 */
+  --popover: 15 20 27;
+  --primary: 34 211 238; /* #22D3EE */
+  --surface: #0f151c;
+  --surface-hover: #151c25;
+  --border: #1f2833;
+  color-scheme: dark;
+}
+:root.light {
+  --background: 248 250 252;
+  --foreground: 15 23 42;
+  --muted-foreground: 100 116 139;
+  --popover: 255 255 255;
+  --primary: 8 145 178;
+  --surface: #ffffff;
+  --surface-hover: #f1f5f9;
+  --border: #e2e8f0;
+  color-scheme: light;
+}
+
+html, body, #root { height: 100%; }
+body {
+  margin: 0;
+  font-family: 'Inter Variable', Inter, 'Segoe UI', system-ui, sans-serif;
+  font-size: 13px;
+  -webkit-font-smoothing: antialiased;
+  color: rgb(var(--foreground));
+  background: rgb(var(--background));
+  overflow: hidden;
+  user-select: none;
+}
+input, textarea { user-select: text; }
+.selectable { user-select: text; }
+.drag { -webkit-app-region: drag; }
+.no-drag { -webkit-app-region: no-drag; }
+
+@layer components {
+  /* Панель: плоская поверхность с рамкой, без размытия и теней */
+  .panel {
+    background: var(--surface);
+    border: 1px solid var(--border);
+  }
+}
+
+::-webkit-scrollbar { width: 10px; height: 10px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb { background: rgb(var(--foreground) / 0.14); border-radius: 999px; border: 3px solid transparent; background-clip: content-box; }
+::-webkit-scrollbar-thumb:hover { background: rgb(var(--foreground) / 0.28); background-clip: content-box; border: 3px solid transparent; }
+:focus-visible { outline: 1px solid rgb(var(--primary) / 0.8); outline-offset: 2px; }
+::selection { background: rgb(var(--primary) / 0.25); }
+
+@media (prefers-reduced-motion: reduce) { .animate-indeterminate { animation: none !important; } }
+
+/* ===== Анимации кнопок: единый ритм для ВСЕХ кнопок лаунчера ===== */
+button,
+[role='tab'],
+[role='switch'],
+[role='combobox'] {
+  transition-property: background-color, border-color, color, opacity, transform !important;
+  transition-duration: 180ms !important;
+  transition-timing-function: cubic-bezier(0.22, 1, 0.36, 1) !important;
+}
+/* лёгкое «нажатие» */
+button:not(:disabled):active,
+[role='tab']:active {
+  transform: scale(0.97);
+  transition-duration: 90ms !important;
+}
+/* иконки внутри кнопок плавно меняют цвет вместе с текстом */
+button svg { transition: color 180ms cubic-bezier(0.22, 1, 0.36, 1), transform 180ms cubic-bezier(0.22, 1, 0.36, 1); }
+/* иконка-стрелка и «скачать» чуть сдвигаются при наведении */
+button:not(:disabled):hover svg.lucide-download { transform: translateY(1px); }
+button:not(:disabled):hover svg.lucide-chevron-down { transform: translateY(1px); }
+button:not(:disabled):hover svg.lucide-refresh-cw { transform: rotate(45deg); }
+@media (prefers-reduced-motion: reduce) {
+  button, [role='tab'], [role='switch'], [role='combobox'] { transition-duration: 1ms !important; }
+  button:not(:disabled):active { transform: none; }
+}

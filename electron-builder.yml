@@ -1,0 +1,36 @@
+appId: app.swiftlauncher.launcher
+productName: SwiftLauncher
+copyright: SwiftLauncher
+directories:
+  output: dist-app
+  buildResources: assets
+files:
+  - dist/**/*
+  - dist-electron/**/*
+  - assets/icon.png
+  - package.json
+asar: true
+compression: normal
+win:
+  icon: assets/icon.png
+  target:
+    - target: nsis
+      arch: x64
+    - target: portable
+      arch: x64
+nsis:
+  language: '1049'
+  installerLanguages: ru_RU
+  artifactName: SwiftLauncher-Setup-${version}.${ext}
+  oneClick: false
+  allowToChangeInstallationDirectory: true
+  perMachine: false
+  createDesktopShortcut: true
+  shortcutName: SwiftLauncher
+portable:
+  artifactName: SwiftLauncher-${version}-portable.${ext}
+publish:
+  provider: github
+  owner: arrhysa
+  repo: SwiftLauncher
+  releaseType: release
